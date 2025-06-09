@@ -108,6 +108,17 @@
         # Configure dock
         system.defaults.dock.autohide = true;
         system.defaults.dock.show-recents = false;
+        
+        # Install keybase
+        system.activationScripts.installKeybase.text = ''
+            echo "Installing Keybase GUI from .dmg..."
+            tmpdmg=$(mktemp -t keybase.dmg)
+            curl -L -o "$tmpdmg" https://prerelease.keybase.io/Keybase.dmg
+            hdiutil attach "$tmpdmg" -nobrowse -quiet
+            cp -R "/Volumes/Keybase/Keybase.app" /Applications/
+            hdiutil detach "/Volumes/Keybase" -quiet
+            rm "$tmpdmg"
+        '';
 
         # Set homebrew-installed application to not be installed in /usr/local/bin
         homebrew.enable = true;
