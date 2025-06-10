@@ -117,10 +117,10 @@
         #homebrew.masApps = if system != "aarch64-darwin" then { magnet = 441258766; } else { };
 
         # Declare the user that will be running `nix-darwin`.
-        users.users.alberto = {
-          name = "alberto";
-          home = "/Users/alberto";
-        };
+        # users.users.alberto = {
+        #   name = "alberto";
+        #   home = "/Users/alberto";
+        # };
 
         # Global casks
         homebrew = {
