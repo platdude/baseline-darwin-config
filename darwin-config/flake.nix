@@ -2,14 +2,10 @@
   description = "nix-darwin base configuration";
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
-    nix-darwin.url = "github:lnl7/nix-darwin";
+    nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-25.05-darwin";
+    nix-darwin.url = "github:lnl7/nix-darwin/nix-darwin-25.05";
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
-    home-manager.url = "github:nix-community/home-manager";
-    home-manager.inputs.nixpkgs.follows = "nixpkgs";
-    nix-vscode-extensions.url = "github:nix-community/nix-vscode-extensions";
-    nix-vscode-extensions.inputs.nixpkgs.follows = "nixpkgs";
-    determinatenix.url = "https://flakehub.com/f/DeterminateSystems/nix/2.27.*";
+    determinatenix.url = "https://flakehub.com/f/DeterminateSystems/nix/2.27.0";
     determinatenix.inputs.nixpkgs.follows = "nixpkgs";
   };
 
@@ -18,35 +14,13 @@
     , nix-darwin
     , nixpkgs
     , home-manager
-    , nix-vscode-extensions
     , determinatenix
     , ...
     }:
     let
-      system = "x86_64-darwin";
       nixversion = "2_27";
-
-      pkgs = import nixpkgs
-        {
-          # We use the system architecture variable
-          inherit system;
-
-          config = {
-            allowUnfree = true;
-            allowUnfreePredicate = _: true;
-          };
-
-          # We make vscode-extensions available in the package set
-          overlays = [ nix-vscode-extensions.overlays.default ];
-
-          # And we extend pkgs with a set merge operator
-        } // {
-        nix = determinatenix.packages.${system}.default;
-      };
-
       # This the baseline configuration for nix-darwin
-      darwinConfig = { system, pkgs, ... }: {
-
+      darwinConfig = { pkgs, ... }: {
         # These are command line tools that are installed globally on all hosts.
         environment.systemPackages = with pkgs; [
           # Dev
@@ -116,12 +90,6 @@
         # Only install magnet if it's my personal laptop
         #homebrew.masApps = if system != "aarch64-darwin" then { magnet = 441258766; } else { };
 
-        # Declare the user that will be running `nix-darwin`.
-        # users.users.alberto = {
-        #   name = "alberto";
-        #   home = "/Users/alberto";
-        # };
-
         # Global casks
         homebrew = {
           casks = [
@@ -153,9 +121,9 @@
       };
     in
     {
-      baseline = {
-        darwinConfig = darwinConfig;
-        pkgs = pkgs;
-      };
+      determinatenix = determinatenix;
+      darwinConfig = darwinConfig;
+      nix-darwin = nix-darwin;
+      pkgs = nixpkgs;
     };
 }
