@@ -10,13 +10,7 @@
   };
 
   outputs =
-    inputs@{ self
-    , nix-darwin
-    , nixpkgs
-    , home-manager
-    , determinatenix
-    , ...
-    }:
+    inputs@{ self, nix-darwin, nixpkgs, home-manager, determinatenix, ... }:
     let
       nixversion = "2_27";
       # This the baseline configuration for nix-darwin
@@ -35,8 +29,7 @@
 
           # Nix
           hydra-check
-          nixpkgs-fmt
-          nixfmt-classic
+          nixfmt-rfc-style
           nixd
           nil
 
@@ -87,9 +80,6 @@
         homebrew.enable = true;
         homebrew.onActivation.cleanup = "uninstall";
 
-        # Only install magnet if it's my personal laptop
-        #homebrew.masApps = if system != "aarch64-darwin" then { magnet = 441258766; } else { };
-
         # Global casks
         homebrew = {
           casks = [
@@ -119,8 +109,7 @@
           ];
         };
       };
-    in
-    {
+    in {
       determinatenix = determinatenix;
       darwinConfig = darwinConfig;
       nix-darwin = nix-darwin;
