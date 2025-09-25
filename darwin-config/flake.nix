@@ -2,114 +2,127 @@
   description = "nix-darwin base configuration";
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-25.05-darwin";
-    nix-darwin.url = "github:lnl7/nix-darwin/nix-darwin-25.05";
+    nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-25.05-darwin?rev=17a76721a11c02a03aa0874690847a3e9df01cd4";
+    nix-darwin.url = "github:lnl7/nix-darwin/nix-darwin-25.05?rev=1fef4404de4d1596aa5ab2bd68078370e1b9dcdb";
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
     determinatenix.url = "https://flakehub.com/f/DeterminateSystems/nix/2.27.0";
     determinatenix.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs =
-    inputs@{ self, nix-darwin, nixpkgs, home-manager, determinatenix, ... }:
+    inputs@{
+      self,
+      nix-darwin,
+      nixpkgs,
+      home-manager,
+      determinatenix,
+      ...
+    }:
     let
       nixversion = "2_27";
       # This the baseline configuration for nix-darwin
-      darwinConfig = { pkgs, ... }: {
-        # These are command line tools that are installed globally on all hosts.
-        environment.systemPackages = with pkgs; [
-          # Dev
-          cloc
-          git
-          gitAndTools.git-absorb
-          git-crypt
-          difftastic
-          pre-commit
-          gnupg
-          awscli2
+      darwinConfig =
+        { pkgs, ... }:
+        {
+          # These are command line tools that are installed globally on all hosts.
+          environment.systemPackages = with pkgs; [
+            # Dev
+            cloc
+            git
+            gitAndTools.git-absorb
+            git-crypt
+            difftastic
+            pre-commit
+            gnupg
+            awscli2
 
-          # Nix
-          hydra-check
-          nixfmt-rfc-style
-          nixd
-          nil
+            # Nix
+            hydra-check
+            nixfmt-rfc-style
+            nixfmt-tree
+            nixd
 
-          # OS Essentials
-          fd
-          htop
-          neovim
-          nmap
-          ripgrep
-          tmux
-          tree
-          vim
-          openssl
+            # OS Essentials
+            fd
+            htop
+            neovim
+            nmap
+            ripgrep
+            tmux
+            tree
+            vim
+            openssl
 
-          # MasApp
-          mas
-
-          # Tools
-          iperf
-          jq
-          tldr
-          yq
-        ];
-
-        # To get completion for system packages (e.g. systemd).
-        environment.pathsToLink = [ "/share/zsh" ];
-
-        # Stores metadata about the current configuration revision in the Nix store.
-        system.configurationRevision = self.rev or self.dirtyRev or null;
-
-        # Nix-determinate manages the Nix installation and configuration.
-        nix.enable = false;
-        # Auto upgrade nix package and the daemon service.
-        nix.package = pkgs.${nixversion};
-
-        # This enables flakes support as well as making extra nix commands available.
-        nix.settings.experimental-features = [ "nix-command" "flakes" ];
-
-        # Used for backwards compatibility, please read the changelog before changing.
-        # $ darwin-rebuild changelog
-        system.stateVersion = 6;
-
-        # Configure dock
-        system.defaults.dock.autohide = true;
-        system.defaults.dock.show-recents = false;
-
-        # Set homebrew-installed application to not be installed in /usr/local/bin
-        homebrew.enable = true;
-        homebrew.onActivation.cleanup = "uninstall";
-
-        # Global casks
-        homebrew = {
-          casks = [
-            # Console
-            "iterm2"
-
-            # Browsers
-            "firefox"
-            "google-chrome"
-
-            # Drivers etc.
-            "logitech-options"
-
-            # Media
-            "spotify"
-            "vlc"
-
-            # Office
-            "notion"
+            # MasApp
+            mas
 
             # Tools
-            "appcleaner"
-            "bitwarden"
-
-            # apple default fonts
-            "font-sf-pro"
+            iperf
+            jq
+            tldr
+            yq
           ];
+
+          # To get completion for system packages (e.g. systemd).
+          environment.pathsToLink = [ "/share/zsh" ];
+
+          # Stores metadata about the current configuration revision in the Nix store.
+          system.configurationRevision = self.rev or self.dirtyRev or null;
+
+          # Nix-determinate manages the Nix installation and configuration.
+          nix.enable = false;
+          # Auto upgrade nix package and the daemon service.
+          nix.package = pkgs.${nixversion};
+
+          # This enables flakes support as well as making extra nix commands available.
+          nix.settings.experimental-features = [
+            "nix-command"
+            "flakes"
+          ];
+
+          # Used for backwards compatibility, please read the changelog before changing.
+          # $ darwin-rebuild changelog
+          system.stateVersion = 6;
+
+          # Configure dock
+          system.defaults.dock.autohide = true;
+          system.defaults.dock.show-recents = false;
+
+          # Set homebrew-installed application to not be installed in /usr/local/bin
+          homebrew.enable = true;
+          homebrew.onActivation.cleanup = "uninstall";
+
+          # Global casks
+          homebrew = {
+            casks = [
+              # Console
+              "iterm2"
+
+              # Browsers
+              "firefox"
+              "google-chrome"
+
+              # Drivers etc.
+              "logitech-options"
+
+              # Media
+              "spotify"
+              "vlc"
+
+              # Office
+              "notion"
+
+              # Tools
+              "appcleaner"
+              "bitwarden"
+
+              # apple default fonts
+              "font-sf-pro"
+            ];
+          };
         };
-      };
-    in {
+    in
+    {
       determinatenix = determinatenix;
       darwinConfig = darwinConfig;
       nix-darwin = nix-darwin;
