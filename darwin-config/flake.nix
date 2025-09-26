@@ -37,7 +37,6 @@
             awscli2
 
             # Nix
-            hydra-check
             nixfmt-rfc-style
             nixfmt-tree
             nixd
