@@ -122,9 +122,7 @@
     in
     {
       # Library outputs for reuse in other flakes
-      lib = {
-        darwinConfig = darwinConfig;
-        nixDarwin = nix-darwin;
-      };
+      darwinConfig = darwinConfig;
+      nixDarwin = nix-darwin;
     };
 }
