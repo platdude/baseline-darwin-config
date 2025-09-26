@@ -125,5 +125,6 @@
       darwinConfig = darwinConfig;
       nixDarwin = nix-darwin;
       pkgs = nixpkgs;
+      determinatenix = determinatenix;
     };
 }
