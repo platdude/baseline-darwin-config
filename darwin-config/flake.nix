@@ -121,8 +121,9 @@
         };
     in
     {
-      # Library outputs for reuse in other flakes
+      # Outputs for reuse in other flakes
       darwinConfig = darwinConfig;
       nixDarwin = nix-darwin;
+      pkgs = nixpkgs;
     };
 }
