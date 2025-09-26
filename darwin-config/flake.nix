@@ -14,7 +14,6 @@
       self,
       nix-darwin,
       nixpkgs,
-      home-manager,
       determinatenix,
       ...
     }:
