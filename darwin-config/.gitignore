@@ -1,0 +1,12 @@
+# Pre-commit configuration
+.pre-commit-config.yaml
+
+# Build outputs and temporary files
+result
+result-*
+
+# Nix build cache
+.direnv/
+
+# macOS
+.DS_Store
