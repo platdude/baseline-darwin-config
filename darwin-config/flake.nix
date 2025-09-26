@@ -2,10 +2,10 @@
   description = "nix-darwin base configuration";
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/?rev=17a76721a11c02a03aa0874690847a3e9df01cd4";
+    nixpkgs.url = "github:nixos/nixpkgs/?rev=b5d84e5b26d74be4bd806161af0878251342c65a";
     nix-darwin.url = "github:lnl7/nix-darwin/?rev=1fef4404de4d1596aa5ab2bd68078370e1b9dcdb";
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
-    determinatenix.url = "https://flakehub.com/f/DeterminateSystems/nix/2.27.0";
+    determinatenix.url = "github:DeterminateSystems/nix/v2.27.1";
     determinatenix.inputs.nixpkgs.follows = "nixpkgs";
   };
 
@@ -37,7 +37,6 @@
             awscli2
 
             # Nix
-            hydra-check
             nixfmt-rfc-style
             nixfmt-tree
             nixd
@@ -123,9 +122,10 @@
         };
     in
     {
-      determinatenix = determinatenix;
-      darwinConfig = darwinConfig;
-      nix-darwin = nix-darwin;
-      pkgs = nixpkgs;
+      # Library outputs for reuse in other flakes
+      lib = {
+        darwinConfig = darwinConfig;
+        nixDarwin = nix-darwin;
+      };
     };
 }
