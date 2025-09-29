@@ -51,6 +51,7 @@
             tree
             vim
             openssl
+            iterm2
 
             # MasApp
             mas
