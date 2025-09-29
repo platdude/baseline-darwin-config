@@ -52,6 +52,7 @@
             vim
             openssl
             iterm2
+            ghostty
 
             # MasApp
             mas
