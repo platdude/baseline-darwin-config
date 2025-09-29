@@ -34,6 +34,7 @@
             pre-commit
             gnupg
             awscli2
+            aws-vault
 
             # Nix
             nixfmt-rfc-style
