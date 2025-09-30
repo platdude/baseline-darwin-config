@@ -115,6 +115,7 @@
               # Tools
               "appcleaner"
               "bitwarden"
+              "aws_completer"
 
               # apple default fonts
               "font-sf-pro"
