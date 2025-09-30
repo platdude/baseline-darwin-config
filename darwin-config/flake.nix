@@ -51,7 +51,6 @@
             tree
             vim
             openssl
-            iterm2
 
             # MasApp
             mas
@@ -97,6 +96,7 @@
             casks = [
               # Console
               "iterm2"
+              "ghostty"
 
               # Browsers
               "firefox"
