@@ -98,6 +98,7 @@
               "iterm2"
               "alacritty"
               "ghostty"
+              "wezterm"
 
               # Browsers
               "firefox"
