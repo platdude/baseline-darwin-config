@@ -96,6 +96,7 @@
             casks = [
               # Console
               "iterm2"
+              "alacritty"
               "ghostty"
 
               # Browsers
